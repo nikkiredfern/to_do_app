@@ -12,6 +12,22 @@
     display: none;
   }
   </style>
+
+<form id='form'>
+  <div>
+    <lable for="name">Create a To-Do Item</lable>
+    <input type="text" id="description">
+  </div>
+  <div>
+    <input type="submit" id="submit" value="Create" />
+  </div>
+</form>
+<div id="error" class="hidden">Something went wrong!</div>
+  <ul id="todos">
+      {% for d in data%}
+      <li>{{d.description}}</li>
+      {% endfor %}
+  </ul>
   <script>
     document.getElementById('form').onsubmit = function(e) {
       e.preventDefault();
@@ -38,21 +54,5 @@
       })
     }
   </script>
-<form id='form'>
-  <div>
-    <lable for="name">Create a To-Do Item</lable>
-    <input type="text" id="description">
-  </div>
-  <div>
-    <input type="submit" id="submit" value="Create" />
-  </div>
-</form>
-<div id="error" class="hidden">Something went wrong!</div>
-  <ul id="todos">
-      {% for d in data%}
-      <li>{{d.description}}</li>
-      {% endfor %}
-  </ul>
-
 </body>
 </html>
