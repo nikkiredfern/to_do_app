@@ -4,16 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To Do App</title>
-  <link rel="stylesheet" type="text/css" title="Cool stylesheet" href="style.css">
 </head>
 <body>
   <div id="root"></div>
-  <script src="main.js" type="text/javascript"></script>
-
-  <ul>
+  <style>
+  .hidden {
+    display: none;
+  }
+  </style>
+  <script>
+    document.getElementById('form').onsubmit = function(e) {
+      e.preventDefault();
+      fetch('/todos/create', {
+        method: 'POST',
+        body: JSON.stringify({
+          'description': document.getElementById('description').value
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(jsonResponse) {
+        console.log(jsonResponse);
+        const liItem =  document.createElement('LI');
+        liItem.innerHTML = jsonResponse['description'];
+        document.getElementById('todos').appendChild(liItem);
+      })
+      .catch(function() {
+        document.getElementById('error').className ='';
+      })
+    }
+  </script>
+<form id='form'>
+  <div>
+    <lable for="name">Create a To-Do Item</lable>
+    <input type="text" id="description">
+  </div>
+  <div>
+    <input type="submit" id="submit" value="Create" />
+  </div>
+</form>
+<div id="error" class="hidden">Something went wrong!</div>
+  <ul id="todos">
       {% for d in data%}
       <li>{{d.description}}</li>
       {% endfor %}
   </ul>
+
 </body>
 </html>
